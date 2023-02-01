@@ -17,9 +17,7 @@
   
   # 处理视图
   def sayhello(context):
-    context.start_response('200 OK', [('Content-Type', 'text/html;charset=utf-8')])
-    print(f'hello:{context.params.get("name")}'.encode('utf-8'))
-    context.respone = f'hello:{context.params.get("name")},v1'.encode('utf-8')
+    context.json({"name": context.params.get("name"), "message": "你好呀"})
   
   # 初始化APP
   app = Engine()
