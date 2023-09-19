@@ -2,6 +2,7 @@ from werkzeug import run_simple
 
 from context import Context
 from router import Route
+from simple_http_server import SimpleHttpServer
 from views import NotFound_404
 
 
@@ -41,6 +42,7 @@ class Engine(RouterGroup):
     groups = []
 
     def __call__(self, env, start_response):
+        # print(start_response, type(start_response))
         c = Context(env, start_response)
 
         path = env.get("PATH_INFO")
@@ -62,7 +64,11 @@ class Engine(RouterGroup):
 
     def run_http(self):
         try:
-            run_simple("127.0.0.1", 8080, self)
+            # werkzeug提供的简易http服务器
+            # run_simple("127.0.0.1", 8080, self)
+            # 自己写的简易http服务器
+            shs = SimpleHttpServer("127.0.0.1", 8080)
+            shs.run_simple(self)
         finally:
             print("启动成功".encode('utf-8'))
 
